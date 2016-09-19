@@ -284,9 +284,6 @@ exports.default = {
         return !tmpMoment.isBetween(limit.from, limit.to);
       }
     },
-    isInArray: function isInArray(value, array) {
-      return array.indexOf(value) !== -1;
-    },
     checkDay: function checkDay(obj) {
       if (obj.unavailable || obj.value === '' || obj.moment == undefined) {
         return false;
@@ -310,11 +307,12 @@ exports.default = {
           var weekDay = weekStart.add((d == 0) ? 0 : 1, 'd').format('YYYY-MM-DD');
           this.selectedDays.push(weekDay);
         }
-        this.dayList.map(function (x) {
-          if (this.selectedDays.indexOf(x.moment.format('YYYY-MM-DD')) !== -1) {
-            x.checked = true;
+        var _this = this;
+        this.dayList.map(function (day) {
+          if (_this.selectedDays.indexOf(day.moment.format('YYYY-MM-DD')) !== -1) {
+            day.checked = true;
           } else {
-            x.checked = false;
+            day.checked = false;
           }
         });
         //this.showDay(weekStart.format('YYYY-MM-DD HH:mm'));
