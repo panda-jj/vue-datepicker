@@ -123,8 +123,8 @@ exports.default = {
     if (this.option.type === 'week-picker' && this.selectedDays.length == 0) {
       var weekStart = (0, _moment2.default)().startOf('week');
       for (var d = 0; d < 7; d++) {
-        var ctime = weekStart.add(d, 'd').format('YYYY-MM-DD HH:mm');
-        this.selectedDays.push(ctime);
+        var weekDay = weekStart.add((d == 0) ? 0 : 1, 'd').format('YYYY-MM-DD');
+        this.selectedDays.push(weekDay);
       }
     }
     if (this.option.inline) {
@@ -308,7 +308,7 @@ exports.default = {
         this.selectedDays = [];
         var weekStart = obj.moment.startOf('week');
         for (var d = 0; d < 7; d++) {
-          var weekDay = weekStart.add(d, 'd').format('YYYY-MM-DD');
+          var weekDay = weekStart.add((d == 0) ? 0 : 1, 'd').format('YYYY-MM-DD');
           this.selectedDays.push(weekDay);
         }
         this.dayList.map(function (x) {
