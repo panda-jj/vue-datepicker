@@ -50,6 +50,7 @@ exports.default = {
           overlayOpacity: 0.5,
           dismissible: true,
           selectedDays: [],
+          //TODO: implementation for inline == false
           inline: true
         };
       }
@@ -127,9 +128,7 @@ exports.default = {
         this.selectedDays.push(weekDay);
       }
     }
-    if (this.option.inline) {
-      this.showDay();
-    }
+    this.showDay();
   },
 
   methods: {
@@ -312,7 +311,7 @@ exports.default = {
           this.selectedDays.push(weekDay);
         }
         this.dayList.map(function (x) {
-          if (this.isInArray(x.moment.format('YYYY-MM-DD'), this.selectedDays)) {
+          if (this.selectedDays.indexOf(x.moment.format('YYYY-MM-DD')) !== -1) {
             x.checked = true;
           } else {
             x.checked = false;
