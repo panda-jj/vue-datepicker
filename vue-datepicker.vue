@@ -87,7 +87,7 @@ exports.default = {
     }
     return {
       hours: hours(),
-      mins: mins(),
+      mins: [{checked: false, value: '00'}, {checked: false, value: '30'}],
       showInfo: {
         hour: false,
         day: false,
@@ -784,26 +784,21 @@ table {
 </style>
 <template>
   <div class="cov-vue-date">
-    <div class="datepickbox">
-      <input
-      type="text"
-      title="input date"
-      class="cov-datepicker"
-      readonly="readonly"
-      placeholder="{{option.placeholder}}"
-      v-model="time"
-      :required="required"
-      @click="showCheck"
-      @foucus="showCheck"
-      :style="option.inputStyle"/>
-    </div>
+    <!--<div class="datepickbox">-->
+      <!--<input-->
+      <!--type="text"-->
+      <!--title="input date"-->
+      <!--class="cov-datepicker"-->
+      <!--readonly="readonly"-->
+      <!--placeholder="{{option.placeholder}}"-->
+      <!--v-model="time"-->
+      <!--:required="required"-->
+      <!--@click="showCheck"-->
+      <!--@foucus="showCheck"-->
+      <!--:style="option.inputStyle"/>-->
+    <!--</div>-->
 
-    <div class="datepicker-overlay"
-      v-if="showInfo.check"
-      @click="dismiss($event)"
-      :style="{
-        'background' : option.overlayOpacity? 'rgba(0,0,0,'+option.overlayOpacity+')' : 'rgba(0,0,0,0.5)'
-      }">
+    <div class="datepicker-wrapper">
       <div
       class="cov-date-body"
       :style="{
