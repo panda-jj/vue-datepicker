@@ -42,14 +42,15 @@ exports.default = {
             'border-radius': '2px',
             'color': '#5F5F5F'
           },
-          placeholder: 'when?',
+          placeholder: '',
           buttons: {
             ok: 'OK',
             cancel: 'Cancel'
           },
           overlayOpacity: 0.5,
           dismissible: true,
-          selectedDays: []
+          selectedDays: [],
+          inline: true
         };
       }
     },
@@ -119,7 +120,16 @@ exports.default = {
   },
 
   created () {
-    this.showDay();
+    if (this.option.type === 'week-picker' && this.selectedDays.length == 0) {
+      var weekStart = (0, _moment2.default)().startOf('week');
+      for (var d = 0; d < 7; d++) {
+        var ctime = weekStart.add(d, 'd').format('YYYY-MM-DD HH:mm');
+        this.selectedDays.push(ctime);
+      }
+    }
+    if (this.option.inline) {
+      this.showDay();
+    }
   },
 
   methods: {
@@ -275,8 +285,11 @@ exports.default = {
         return !tmpMoment.isBetween(limit.from, limit.to);
       }
     },
+    isInArray: function isInArray(value, array) {
+      return array.indexOf(value) !== -1;
+    },
     checkDay: function checkDay(obj) {
-      if (obj.unavailable || obj.value === '') {
+      if (obj.unavailable || obj.value === '' || obj.moment == undefined) {
         return false;
       }
 
@@ -292,16 +305,20 @@ exports.default = {
         this.checked.day = day;
         obj.checked = true;
       } else if (this.option.type === 'week-picker') {
-        this.dayList.map(function (x) {
-          x.checked = false;
-        });
         this.selectedDays = [];
-        var weekStart = (0, _moment2.default)(this.checked.year + '-' + this.checked.month + '-' + day).startOf('week');
+        var weekStart = obj.moment.startOf('week');
         for (var d = 0; d < 7; d++) {
-          var ctime = weekStart.add(d, 'd').format('YYYY-MM-DD HH:mm');
-          this.selectedDays.push(ctime);
+          var weekDay = weekStart.add(d, 'd').format('YYYY-MM-DD');
+          this.selectedDays.push(weekDay);
         }
-        this.showDay(weekStart.format('YYYY-MM-DD HH:mm'));
+        this.dayList.map(function (x) {
+          if (this.isInArray(x.moment.format('YYYY-MM-DD'), this.selectedDays)) {
+            x.checked = true;
+          } else {
+            x.checked = false;
+          }
+        });
+        //this.showDay(weekStart.format('YYYY-MM-DD HH:mm'));
       } else {
         var ctime = this.checked.year + '-' + this.checked.month + '-' + day;
         if (obj.checked === true) {
