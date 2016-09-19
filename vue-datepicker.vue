@@ -48,7 +48,8 @@ exports.default = {
             cancel: 'Cancel'
           },
           overlayOpacity: 0.5,
-          dismissible: true
+          dismissible: true,
+          selectedDays: []
         };
       }
     },
@@ -113,8 +114,12 @@ exports.default = {
         min: '00'
       },
       dayList: [],
-      selectedDays: []
+      selectedDays: this.option.selectedDays
     };
+  },
+
+  created () {
+    this.showDay();
   },
 
   methods: {
@@ -286,6 +291,7 @@ exports.default = {
         this.checked.day = this.pad(obj.value);
         obj.checked = true;
       } else {
+        //TODO: if this.option.type === 'week-picker' push all days of current week to this.selectedDays
         var day = this.pad(obj.value);
         var ctime = this.checked.year + '-' + this.checked.month + '-' + day;
         if (obj.checked === true) {
