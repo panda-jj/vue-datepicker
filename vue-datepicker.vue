@@ -284,15 +284,25 @@ exports.default = {
         this.nextMonth(obj.action);
       }
 
+      var day = this.pad(obj.value);
       if (this.option.type === 'day' || this.option.type === 'min') {
         this.dayList.map(function (x) {
           x.checked = false;
         });
-        this.checked.day = this.pad(obj.value);
+        this.checked.day = day;
         obj.checked = true;
+      } else if (this.option.type === 'week-picker') {
+        this.dayList.map(function (x) {
+          x.checked = false;
+        });
+        this.selectedDays = [];
+        var weekStart = (0, _moment2.default)(this.checked.year + '-' + this.checked.month + '-' + day).startOf('week');
+        for (var d = 0; d < 7; d++) {
+          var ctime = weekStart.add(d, 'd').format('YYYY-MM-DD HH:mm');
+          this.selectedDays.push(ctime);
+        }
+        this.showDay(weekStart.format('YYYY-MM-DD HH:mm'));
       } else {
-        //TODO: if this.option.type === 'week-picker' push all days of current week to this.selectedDays
-        var day = this.pad(obj.value);
         var ctime = this.checked.year + '-' + this.checked.month + '-' + day;
         if (obj.checked === true) {
           obj.checked = false;
