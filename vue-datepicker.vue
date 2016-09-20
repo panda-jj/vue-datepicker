@@ -835,13 +835,17 @@ table {
       :style="option.inputStyle"/>
     </div>
 
-    <!--<div class="datepicker-overlay"-->
-         <!--v-if="(showInfo.check && !option.inline)"-->
-         <!--@click="dismiss($event)"-->
-         <!--:style="{-->
-        <!--'background' : option.overlayOpacity? 'rgba(0,0,0,'+option.overlayOpacity+')' : 'rgba(0,0,0,0.5)'-->
-      <!--}">-->
-    <div v-if="option.inline" class="datepicker-inline">
+    <template v-if="!option.inline">
+    <div class="datepicker-overlay"
+         v-if="showInfo.check"
+         @click="dismiss($event)"
+         :style="{
+        'background' : option.overlayOpacity? 'rgba(0,0,0,'+option.overlayOpacity+')' : 'rgba(0,0,0,0.5)'
+      }">
+    </template>
+    <template v-else>
+    <div class="datepicker-inline">
+    </template>
       <div
       class="cov-date-body"
       :style="{
