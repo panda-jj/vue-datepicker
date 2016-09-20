@@ -51,7 +51,7 @@ exports.default = {
           dismissible: true,
           selectedDays: [],
           //TODO: implementation for inline == false
-          inline: false
+          inline: true
         };
       }
     },
@@ -315,7 +315,6 @@ exports.default = {
             day.checked = false;
           }
         });
-        //this.showDay(weekStart.format('YYYY-MM-DD HH:mm'));
       } else {
         var ctime = this.checked.year + '-' + this.checked.month + '-' + day;
         if (obj.checked === true) {
@@ -329,6 +328,7 @@ exports.default = {
 
       switch (this.option.type) {
         case 'day':
+        case 'week-picker':
           this.picked();
           break;
         case 'min':
@@ -469,6 +469,10 @@ exports.default = {
         var ctime = this.checked.year + '-' + this.checked.month + '-' + this.checked.day + ' ' + this.checked.hour + ':' + this.checked.min;
         this.checked.currentMoment = (0, _moment2.default)(ctime, 'YYYY-MM-DD HH:mm');
         this.time = (0, _moment2.default)(this.checked.currentMoment).format(this.option.format);
+      } else if (this.option.type === 'week-picker') {
+        // return as a result the first day of the week
+        var weekStart = (0, _moment2.default)(this.selectedDays[1], 'YYYY-MM-DD').startOf('week');
+        this.time = weekStart.format(this.option.format);
       } else {
         this.time = JSON.stringify(this.selectedDays);
       }
@@ -828,12 +832,12 @@ table {
       :style="option.inputStyle"/>
     </div>
 
-    <div class="datepicker-overlay"
-         v-if="(showInfo.check && !option.inline)"
-         @click="dismiss($event)"
-         :style="{
-        'background' : option.overlayOpacity? 'rgba(0,0,0,'+option.overlayOpacity+')' : 'rgba(0,0,0,0.5)'
-      }">
+    <!--<div class="datepicker-overlay"-->
+         <!--v-if="(showInfo.check && !option.inline)"-->
+         <!--@click="dismiss($event)"-->
+         <!--:style="{-->
+        <!--'background' : option.overlayOpacity? 'rgba(0,0,0,'+option.overlayOpacity+')' : 'rgba(0,0,0,0.5)'-->
+      <!--}">-->
     <div v-if="option.inline" class="datepicker-inline">
       <div
       class="cov-date-body"
