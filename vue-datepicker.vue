@@ -121,12 +121,15 @@ exports.default = {
   },
 
   created () {
-    if (this.option.type === 'week-picker' && this.selectedDays.length == 0) {
-      var weekStart = (0, _moment2.default)().startOf('week');
-      for (var d = 0; d < 7; d++) {
-        var weekDay = weekStart.add((d == 0) ? 0 : 1, 'd').format('YYYY-MM-DD');
-        this.selectedDays.push(weekDay);
+    if (this.option.type === 'week-picker') {
+      if (this.selectedDays.length == 0) {
+        var weekStart = (0, _moment2.default)().startOf('week');
+        for (var d = 0; d < 7; d++) {
+          var weekDay = weekStart.add((d == 0) ? 0 : 1, 'd').format('YYYY-MM-DD');
+          this.selectedDays.push(weekDay);
+        }
       }
+      this.picked();
     }
     this.showDay();
   },
