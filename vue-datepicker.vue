@@ -51,7 +51,7 @@ exports.default = {
           dismissible: true,
           selectedDays: [],
           //TODO: implementation for inline == false
-          inline: true
+          inline: false
         };
       }
     },
@@ -90,7 +90,7 @@ exports.default = {
     }
     return {
       hours: hours(),
-      mins: [{checked: false, value: '00'}, {checked: false, value: '30'}],
+      mins: mins(),
       showInfo: {
         hour: false,
         day: false,
@@ -814,21 +814,27 @@ table {
 </style>
 <template>
   <div class="cov-vue-date">
-    <!--<div class="datepickbox">-->
-      <!--<input-->
-      <!--type="text"-->
-      <!--title="input date"-->
-      <!--class="cov-datepicker"-->
-      <!--readonly="readonly"-->
-      <!--placeholder="{{option.placeholder}}"-->
-      <!--v-model="time"-->
-      <!--:required="required"-->
-      <!--@click="showCheck"-->
-      <!--@foucus="showCheck"-->
-      <!--:style="option.inputStyle"/>-->
-    <!--</div>-->
+    <div v-if="!option.inline" class="datepickbox">
+      <input
+      type="text"
+      title="input date"
+      class="cov-datepicker"
+      readonly="readonly"
+      placeholder="{{option.placeholder}}"
+      v-model="time"
+      :required="required"
+      @click="showCheck"
+      @foucus="showCheck"
+      :style="option.inputStyle"/>
+    </div>
 
-    <div class="datepicker-wrapper">
+    <div class="datepicker-overlay"
+         v-if="(showInfo.check && !option.inline)"
+         @click="dismiss($event)"
+         :style="{
+        'background' : option.overlayOpacity? 'rgba(0,0,0,'+option.overlayOpacity+')' : 'rgba(0,0,0,0.5)'
+      }">
+    <div v-if="option.inline" class="datepicker-inline">
       <div
       class="cov-date-body"
       :style="{
