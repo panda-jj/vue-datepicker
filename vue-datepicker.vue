@@ -116,7 +116,7 @@ exports.default = {
         min: '00'
       },
       dayList: [],
-      selectedDays: this.option.selectedDays
+      selectedDays: (this.option.selectedDays ? this.option.selectedDays : [])
     };
   },
 
