@@ -421,7 +421,7 @@ exports.default = {
       if (this.time === '') {
         this.showDay();
       } else {
-        if (this.option.type === 'day' || this.option.type === 'min') {
+        if (this.option.type === 'day' || this.option.type === 'min' || this.option.type === 'week-picker') {
           this.checked.oldtime = this.time;
           this.showDay(this.time);
         } else {
