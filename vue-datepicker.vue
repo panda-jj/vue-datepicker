@@ -118,7 +118,23 @@ exports.default = {
       selectedDays: (this.option.selectedDays ? this.option.selectedDays : [])
     };
   },
-
+  watch: {
+    'time': function (nVal, oVal) {
+      if (this.option.type === 'week-picker') {
+        var self = this;
+        var day = this.dayList.filter(function (obj) {
+          return obj.moment.format('MM/DD/Y') == _moment(self.time).format('MM/DD/Y');
+        });
+        this.checkDay(day);
+        var weekStart = _moment(self.time);
+        this.selectedDays = [];
+        for (var d = 0; d < 7; d++) {
+          var weekDay = weekStart.add((d == 0) ? 0 : 1, 'd').format('YYYY-MM-DD');
+          this.selectedDays.push(weekDay);
+        }
+      }
+    }
+  },
   created () {
     if (this.option.type === 'week-picker') {
       if (this.selectedDays.length == 0) {
@@ -480,6 +496,7 @@ exports.default = {
       }
       this.showInfo.check = false;
       this.$emit('change', this.time);
+      this.$dispatch('date-picker::selected', this.time)
     },
     dismiss: function dismiss(evt) {
       if (evt.target.className === 'datepicker-overlay') {
