@@ -837,7 +837,7 @@ table {
 </style>
 <template>
   <div class="cov-vue-date">
-    <div v-if="!option.inline" class="datepickbox">
+    <div v-if="!option.inline && !option.element" class="datepickbox">
       <input
       type="text"
       title="input date"
@@ -850,6 +850,7 @@ table {
       @foucus="showCheck"
       :style="option.inputStyle"/>
     </div>
+    <i v-if="option.element == 'image'" :style="option.inputStyle" @click="showCheck" class="datepickimage material-icons input-field">today</i>
     <!-- MODAL LAYOUT -->
     <div class="datepicker-overlay"
     v-if="showInfo.check"
