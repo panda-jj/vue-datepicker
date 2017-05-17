@@ -7,7 +7,7 @@
 
     var _moment = require('moment');
 
-    _moment.lang('en', {
+    _moment.updateLocale('en', {
         week : {
             dow : 1 // Monday is the first day of the week
         }
