@@ -325,6 +325,7 @@
                     });
                     this.checked.day = day;
                     obj.checked = true;
+                    this.selectedDays = [];
                 } else if (this.option.type === 'week-picker') {
                     this.selectedDays = [];
                     var weekStart = obj.moment.startOf('week');
